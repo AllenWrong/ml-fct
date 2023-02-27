@@ -1,10 +1,13 @@
-gallery_model_path: checkpoints/imagenet_new.pt
+gallery_model_path: checkpoints/imagenet_old_fastfill_transformed.pt
 query_model_path: checkpoints/imagenet_new.pt
 
 eval_params:
   distance_metric_name: l2
   verbose: True
   compute_map: True
+  backfilling: 20
+  backfilling_list: ['sigma'] # choices are 'random', 'distance', and 'sigma'
+  backfilling_result_path: checkpoints/imagenet_fastfill_backfilling.npy
 
 dataset_params: # Test split of the dataset will be used as both gallery and query sets.
   name: imagenet

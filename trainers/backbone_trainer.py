@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2022 Apple Inc. All rights reserved.
+# Copyright (C) 2023 Apple Inc. All rights reserved.
 #
 
 from typing import Tuple, Callable
@@ -12,15 +12,17 @@ from utils.logging_utils import AverageMeter
 from utils.eval_utils import accuracy
 
 
-class BackboneTrainer():
+class BackboneTrainer:
     """Class to train and evaluate backbones."""
 
-    def train(self,
-              train_loader: torch.utils.data.DataLoader,
-              model: nn.Module,
-              criterion: Callable,
-              optimizer: torch.optim.Optimizer,
-              device: torch.device) -> Tuple[float, float, float]:
+    def train(
+        self,
+        train_loader: torch.utils.data.DataLoader,
+        model: nn.Module,
+        criterion: Callable,
+        optimizer: torch.optim.Optimizer,
+        device: torch.device,
+    ) -> Tuple[float, float, float]:
         """Run one epoch of training.
 
         :param train_loader: Data loader to train the model.
@@ -37,7 +39,7 @@ class BackboneTrainer():
         model.train()
 
         for i, (images, target) in tqdm.tqdm(
-                enumerate(train_loader), ascii=True, total=len(train_loader)
+            enumerate(train_loader), ascii=True, total=len(train_loader)
         ):
             images = images.to(device, non_blocking=True)
             target = target.to(device, non_blocking=True)
@@ -56,13 +58,15 @@ class BackboneTrainer():
 
         return top1.avg, top5.avg, losses.avg
 
-    def validate(self,
-                 val_loader: torch.utils.data.DataLoader,
-                 model: nn.Module,
-                 criterion: Callable,
-                 device: torch.device) -> Tuple[float, float, float]:
+    def validate(
+        self,
+        val_loader: torch.utils.data.DataLoader,
+        model: nn.Module,
+        criterion: Callable,
+        device: torch.device,
+    ) -> Tuple[float, float, float]:
         """Run validation.
-        
+
         :param val_loader: Data loader to evaluate the model.
         :param model: Model to be evaluated.
         :param criterion: Loss criterion module.
@@ -77,7 +81,7 @@ class BackboneTrainer():
 
         with torch.no_grad():
             for i, (images, target) in tqdm.tqdm(
-                    enumerate(val_loader), ascii=True, total=len(val_loader)
+                enumerate(val_loader), ascii=True, total=len(val_loader)
             ):
                 images = images.to(device, non_blocking=True)
                 target = target.to(device, non_blocking=True)

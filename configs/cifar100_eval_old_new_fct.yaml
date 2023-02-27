@@ -1,0 +1,16 @@
+gallery_model_path: checkpoints/cifar100_old_fct_transformed.pt
+query_model_path: checkpoints/cifar100_new.pt
+
+eval_params:
+  distance_metric_name: l2
+  verbose: True
+  compute_map: True
+  backfilling: 20 # put null here for no backfilling, only transformed(old) vs new.
+  backfilling_list: [ 'random' ] # choices are 'random' and 'distance'
+  backfilling_result_path: checkpoints/cifar100_fct_backfilling.npy
+
+dataset_params: # Test split of the dataset will be used as both gallery and query sets.
+  name: cifar100
+  data_root: data_store/cifar-100-python
+  num_workers: 20
+  batch_size: 1024

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2022 Apple Inc. All rights reserved.
+# Copyright (C) 2023 Apple Inc. All rights reserved.
 #
 
 import os
@@ -13,9 +13,14 @@ from .data_transforms import get_data_transforms
 class SubImageFolder:
     """Class to support training on subset of classes."""
 
-    def __init__(self, name: str, data_root: str, num_workers: int,
-                 batch_size: int,
-                 num_classes=None) -> None:
+    def __init__(
+        self,
+        name: str,
+        data_root: str,
+        num_workers: int,
+        batch_size: int,
+        num_classes=None,
+    ) -> None:
         """Construct a SubImageFolder module.
 
         :param name: Name of the dataset (e.g., cifar100, imagenet).
@@ -32,8 +37,7 @@ class SubImageFolder:
         use_cuda = torch.cuda.is_available()
 
         # Data loading code
-        kwargs = {"num_workers": num_workers,
-                  "pin_memory": True} if use_cuda else {}
+        kwargs = {"num_workers": num_workers, "pin_memory": True} if use_cuda else {}
 
         # Data loading code
         traindir = os.path.join(data_root, "training")

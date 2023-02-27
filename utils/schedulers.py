@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2022 Apple Inc. All rights reserved.
+# Copyright (C) 2023 Apple Inc. All rights reserved.
 #
 
 from typing import Callable, Optional
@@ -10,9 +10,7 @@ import numpy as np
 __all__ = ["multistep_lr", "cosine_lr", "constant_lr", "get_policy"]
 
 
-def get_policy(optimizer: torch.optim.Optimizer,
-               algorithm: str,
-               **kwargs) -> Callable:
+def get_policy(optimizer: torch.optim.Optimizer, algorithm: str, **kwargs) -> Callable:
     """Get learning policy given its configurations.
 
     :param optimizer: A torch optimizer.
@@ -27,8 +25,7 @@ def get_policy(optimizer: torch.optim.Optimizer,
     return out_dict[algorithm](optimizer, **kwargs)
 
 
-def assign_learning_rate(optimizer: torch.optim.Optimizer,
-                         new_lr: float) -> None:
+def assign_learning_rate(optimizer: torch.optim.Optimizer, new_lr: float) -> None:
     """Update lr parameter of an optimizer.
 
     :param optimizer: A torch optimizer.
@@ -38,10 +35,9 @@ def assign_learning_rate(optimizer: torch.optim.Optimizer,
         param_group["lr"] = new_lr
 
 
-def constant_lr(optimizer: torch.optim.Optimizer,
-                warmup_length: int,
-                lr: float,
-                **kwargs) -> Callable:
+def constant_lr(
+    optimizer: torch.optim.Optimizer, warmup_length: int, lr: float, **kwargs
+) -> Callable:
     """Get lr adjustment callable with constant schedule.
 
     :param optimizer: A torch optimizer.
@@ -69,11 +65,13 @@ def constant_lr(optimizer: torch.optim.Optimizer,
     return _lr_adjuster
 
 
-def cosine_lr(optimizer: torch.optim.Optimizer,
-              warmup_length: int,
-              epochs: int,
-              lr: float,
-              **kwargs) -> Callable:
+def cosine_lr(
+    optimizer: torch.optim.Optimizer,
+    warmup_length: int,
+    epochs: int,
+    lr: float,
+    **kwargs
+) -> Callable:
     """Get lr adjustment callable with cosine schedule.
 
     :param optimizer: A torch optimizer.
@@ -104,11 +102,13 @@ def cosine_lr(optimizer: torch.optim.Optimizer,
     return _lr_adjuster
 
 
-def multistep_lr(optimizer: torch.optim.Optimizer,
-                 lr_gamma: float,
-                 lr_adjust: int,
-                 lr: float,
-                 **kwargs) -> Callable:
+def multistep_lr(
+    optimizer: torch.optim.Optimizer,
+    lr_gamma: float,
+    lr_adjust: int,
+    lr: float,
+    **kwargs
+) -> Callable:
     """Get lr adjustment callable with multi-step schedule.
 
     :param optimizer: A torch optimizer.
@@ -134,9 +134,7 @@ def multistep_lr(optimizer: torch.optim.Optimizer,
     return _lr_adjuster
 
 
-def _warmup_lr(base_lr: float,
-               warmup_length: int,
-               epoch: int) -> float:
+def _warmup_lr(base_lr: float, warmup_length: int, epoch: int) -> float:
     """Get updated lr after applying initial warmup.
 
     :param base_lr: Nominal learning rate.

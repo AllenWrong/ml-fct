@@ -1,6 +1,6 @@
 old_model_path: checkpoints/imagenet_old.pt
 new_model_path: checkpoints/imagenet_new.pt
-side_info_model_path: checkpoints/imagenet_500_simclr.pt # Comment this line for no side-info experiment.
+#side_info_model_path: checkpoints/imagenet_500_simclr.pt # Comment this line for no side-info experiment.
 
 arch_params:
   arch: MLP_BN_SIDE_PROJECTION
@@ -27,7 +27,11 @@ lr_policy_params:
   epochs: 80
   lr: 0.0005
 
+objective_params:
+  similarity_loss:
+    name: mse
+
 epochs: 80
 switch_mode_to_eval: True
-output_transformation_path: checkpoints/imagenet_transformation.pt
-output_transformed_old_model_path: checkpoints/imagenet_old_transformed.pt
+output_transformation_path: checkpoints/imagenet_fct_transformation.pt
+output_transformed_old_model_path: checkpoints/imagenet_old_fct_transformed.pt

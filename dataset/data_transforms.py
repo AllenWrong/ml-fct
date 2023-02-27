@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2022 Apple Inc. All rights reserved.
+# Copyright (C) 2023 Apple Inc. All rights reserved.
 #
 
 from typing import Tuple
@@ -61,14 +61,12 @@ def cifar100_transforms() -> Tuple[transforms.Compose, transforms.Compose]:
     return train_transforms, val_transforms
 
 
-data_transforms_map = {
-    'cifar100': cifar100_transforms,
-    'imagenet': imagenet_transforms
-}
+data_transforms_map = {"cifar100": cifar100_transforms, "imagenet": imagenet_transforms}
 
 
-def get_data_transforms(dataset_name: str) -> Tuple[transforms.Compose,
-                                                    transforms.Compose]:
+def get_data_transforms(
+    dataset_name: str,
+) -> Tuple[transforms.Compose, transforms.Compose]:
     """Get training and validation transforms of a dataset.
 
     :param dataset_name: Name of the dataset (e.g., cifar100, imagenet)
