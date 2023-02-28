@@ -1,4 +1,4 @@
-gallery_model_path: checkpoints/cifar100_new.pt
+gallery_model_path: checkpoints/cifar100_old_transformed.pt
 query_model_path: checkpoints/cifar100_new.pt
 
 eval_params:

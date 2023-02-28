@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2023 Apple Inc. All rights reserved.
+# Copyright (C) 2022 Apple Inc. All rights reserved.
 #
 from typing import Optional, List, Tuple
 
@@ -14,14 +14,14 @@ class BasicBlock(nn.Module):
     expansion = 1
 
     def __init__(
-        self,
-        inplanes: int,
-        planes: int,
-        stride: int = 1,
-        downsample: Optional[nn.Module] = None,
-        base_width: int = 64,
-        nonlin: bool = True,
-        embedding_dim: Optional[int] = None,
+            self,
+            inplanes: int,
+            planes: int,
+            stride: int = 1,
+            downsample: Optional[nn.Module] = None,
+            base_width: int = 64,
+            nonlin: bool = True,
+            embedding_dim: Optional[int] = None,
     ) -> None:
         """Construct a BasicBlock module.
 
@@ -38,14 +38,12 @@ class BasicBlock(nn.Module):
             raise ValueError("Base width >64 does not work for BasicBlock")
         if embedding_dim is not None:
             planes = embedding_dim
-        self.conv1 = nn.Conv2d(
-            inplanes, planes, kernel_size=3, padding=1, stride=stride, bias=False
-        )
+        self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=3, padding=1,
+                               stride=stride, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
         self.relu = nn.ReLU(inplace=True)
-        self.conv2 = nn.Conv2d(
-            planes, planes, kernel_size=3, padding=1, stride=1, bias=False
-        )
+        self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, padding=1,
+                               stride=1, bias=False)
         self.bn2 = nn.BatchNorm2d(planes)
         self.downsample = downsample
         self.stride = stride
@@ -82,14 +80,14 @@ class Bottleneck(nn.Module):
     expansion = 4
 
     def __init__(
-        self,
-        inplanes: int,
-        planes: int,
-        stride: int = 1,
-        downsample: Optional[nn.Module] = None,
-        base_width: int = 64,
-        nonlin: bool = True,
-        embedding_dim: Optional[int] = None,
+            self,
+            inplanes: int,
+            planes: int,
+            stride: int = 1,
+            downsample: Optional[nn.Module] = None,
+            base_width: int = 64,
+            nonlin: bool = True,
+            embedding_dim: Optional[int] = None,
     ) -> None:
         """Construct a Bottleneck module.
 
@@ -107,13 +105,14 @@ class Bottleneck(nn.Module):
             out_dim = embedding_dim
         else:
             out_dim = planes * self.expansion
-        self.conv1 = nn.Conv2d(inplanes, width, kernel_size=1, stride=1, bias=False)
+        self.conv1 = nn.Conv2d(inplanes, width, kernel_size=1, stride=1,
+                               bias=False)
         self.bn1 = nn.BatchNorm2d(width)
-        self.conv2 = nn.Conv2d(
-            width, width, kernel_size=3, padding=1, stride=stride, bias=False
-        )
+        self.conv2 = nn.Conv2d(width, width, kernel_size=3, padding=1,
+                               stride=stride, bias=False)
         self.bn2 = nn.BatchNorm2d(width)
-        self.conv3 = nn.Conv2d(width, out_dim, kernel_size=1, stride=1, bias=False)
+        self.conv3 = nn.Conv2d(width, out_dim, kernel_size=1, stride=1,
+                               bias=False)
         self.bn3 = nn.BatchNorm2d(out_dim)
         self.relu = nn.ReLU(inplace=True)
         self.downsample = downsample
@@ -150,14 +149,14 @@ class ResNet(nn.Module):
     """Resnet module."""
 
     def __init__(
-        self,
-        block: nn.Module,
-        layers: List[int],
-        num_classes: int = 1000,
-        base_width: int = 64,
-        embedding_dim: Optional[int] = None,
-        last_nonlin: bool = True,
-        norm_feature: bool = False,
+            self,
+            block: nn.Module,
+            layers: List[int],
+            num_classes: int = 1000,
+            base_width: int = 64,
+            embedding_dim: Optional[int] = None,
+            last_nonlin: bool = True,
+            norm_feature: bool = False,
     ) -> None:
         """Construct a ResNet module.
 
@@ -185,7 +184,8 @@ class ResNet(nn.Module):
         else:
             self.embedding_dim = 512 * block.expansion
 
-        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, padding=3, stride=2, bias=False)
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, padding=3, stride=2,
+                               bias=False)
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
@@ -217,18 +217,17 @@ class ResNet(nn.Module):
         self.avgpool = nn.AdaptiveAvgPool2d(1)
 
         # self.fc = nn.Linear(512 * block.expansion, num_classes)
-        self.fc = nn.Conv2d(
-            self.embedding_dim, num_classes, kernel_size=1, stride=1, bias=False
-        )
+        self.fc = nn.Conv2d(self.embedding_dim, num_classes, kernel_size=1,
+                            stride=1, bias=False)
 
     def _make_layer(
-        self,
-        block: nn.Module,
-        planes: int,
-        blocks: int,
-        embedding_dim: int,
-        stride: int = 1,
-        nonlin: bool = True,
+            self,
+            block: nn.Module,
+            planes: int,
+            blocks: int,
+            embedding_dim: int,
+            stride: int = 1,
+            nonlin: bool = True
     ):
         """Make a layer of resnet architecture.
 
@@ -242,13 +241,9 @@ class ResNet(nn.Module):
         """
         downsample = None
         if stride != 1 or self.inplanes != planes * block.expansion:
-            dconv = nn.Conv2d(
-                self.inplanes,
-                planes * block.expansion,
-                kernel_size=1,
-                stride=stride,
-                bias=False,
-            )
+            dconv = nn.Conv2d(self.inplanes, planes * block.expansion,
+                              kernel_size=1,
+                              stride=stride, bias=False)
             dbn = nn.BatchNorm2d(planes * block.expansion)
             if dbn is not None:
                 downsample = nn.Sequential(dconv, dbn)
@@ -260,13 +255,8 @@ class ResNet(nn.Module):
         layers = []
         if blocks == 1:  # If this layer has only one-block
             if stride != 1 or self.inplanes != embedding_dim:
-                dconv = nn.Conv2d(
-                    self.inplanes,
-                    embedding_dim,
-                    kernel_size=1,
-                    stride=stride,
-                    bias=False,
-                )
+                dconv = nn.Conv2d(self.inplanes, embedding_dim, kernel_size=1,
+                                  stride=stride, bias=False)
                 dbn = nn.BatchNorm2d(embedding_dim)
                 if dbn is not None:
                     last_downsample = nn.Sequential(dconv, dbn)
@@ -296,12 +286,15 @@ class ResNet(nn.Module):
             )
         self.inplanes = planes * block.expansion
         for i in range(1, blocks - 1):
-            layers.append(block(self.inplanes, planes, base_width=self.base_width))
+            layers.append(
+                block(self.inplanes, planes,
+                      base_width=self.base_width)
+            )
 
         if self.inplanes != embedding_dim:
-            dconv = nn.Conv2d(
-                self.inplanes, embedding_dim, stride=1, kernel_size=1, bias=False
-            )
+            dconv = nn.Conv2d(self.inplanes, embedding_dim, stride=1,
+                              kernel_size=1,
+                              bias=False)
             dbn = nn.BatchNorm2d(embedding_dim)
             if dbn is not None:
                 last_downsample = nn.Sequential(dconv, dbn)
@@ -348,9 +341,10 @@ class ResNet(nn.Module):
         return x, feature
 
 
-def ResNet18(
-    num_classes: int, embedding_dim: int, last_nonlin: bool = True, **kwargs
-) -> nn.Module:
+def ResNet18(num_classes: int,
+             embedding_dim: int,
+             last_nonlin: bool = True,
+             **kwargs) -> nn.Module:
     """Get a ResNet18 model.
 
     :param num_classes: Number of classes in the dataset.
@@ -363,13 +357,14 @@ def ResNet18(
         [2, 2, 2, 2],
         num_classes=num_classes,
         embedding_dim=embedding_dim,
-        last_nonlin=last_nonlin,
+        last_nonlin=last_nonlin
     )
 
 
-def ResNet50(
-    num_classes: int, embedding_dim: int, last_nonlin: bool = True, **kwargs
-) -> nn.Module:
+def ResNet50(num_classes: int,
+             embedding_dim: int,
+             last_nonlin: bool = True,
+             **kwargs) -> nn.Module:
     """Get a ResNet50 model.
 
     :param num_classes: Number of classes in the dataset.
@@ -382,13 +377,14 @@ def ResNet50(
         [3, 4, 6, 3],
         num_classes=num_classes,
         embedding_dim=embedding_dim,
-        last_nonlin=last_nonlin,
+        last_nonlin=last_nonlin
     )
 
 
-def ResNet101(
-    num_classes: int, embedding_dim: int, last_nonlin: bool = True, **kwargs
-) -> nn.Module:
+def ResNet101(num_classes: int,
+              embedding_dim: int,
+              last_nonlin: bool = True,
+              **kwargs) -> nn.Module:
     """Get a ResNet101 model.
 
     :param num_classes: Number of classes in the dataset.
@@ -401,13 +397,14 @@ def ResNet101(
         [3, 4, 23, 3],
         num_classes=num_classes,
         eembedding_dim=embedding_dim,
-        last_nonlin=last_nonlin,
+        last_nonlin=last_nonlin
     )
 
 
-def WideResNet50_2(
-    num_classes: int, embedding_dim: int, last_nonlin: bool = True, **kwargs
-) -> nn.Module:
+def WideResNet50_2(num_classes: int,
+                   embedding_dim: int,
+                   last_nonlin: bool = True,
+                   **kwargs) -> nn.Module:
     """Get a WideResNet50 model.
 
     :param num_classes: Number of classes in the dataset.
@@ -421,13 +418,14 @@ def WideResNet50_2(
         num_classes=num_classes,
         base_width=64 * 2,
         embedding_dim=embedding_dim,
-        last_nonlin=last_nonlin,
+        last_nonlin=last_nonlin
     )
 
 
-def WideResNet101_2(
-    num_classes: int, embedding_dim: int, last_nonlin: bool = True, **kwargs
-) -> nn.Module:
+def WideResNet101_2(num_classes: int,
+                    embedding_dim: int,
+                    last_nonlin: bool = True,
+                    **kwargs) -> nn.Module:
     """Get a WideResNet101 model.
 
     :param num_classes: Number of classes in the dataset.
@@ -441,5 +439,5 @@ def WideResNet101_2(
         num_classes=num_classes,
         base_width=64 * 2,
         embedding_dim=embedding_dim,
-        last_nonlin=last_nonlin,
+        last_nonlin=last_nonlin
     )

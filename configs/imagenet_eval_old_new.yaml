@@ -1,5 +1,5 @@
-gallery_model_path: checkpoints/cifar100_new.pt
-query_model_path: checkpoints/cifar100_new.pt
+gallery_model_path: checkpoints/imagenet_old_transformed.pt
+query_model_path: checkpoints/imagenet_new.pt
 
 eval_params:
   distance_metric: l2
@@ -8,7 +8,7 @@ eval_params:
   per_class: False
 
 dataset_params: # Test set of the dataset will be used as both gallery and query sets.
-  name: cifar100
-  data_root: data_store/cifar-100-python
+  name: imagenet
+  data_root: data_store/imagenet-1.0.2/data/raw
   num_workers: 20
   batch_size: 1024

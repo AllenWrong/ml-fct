@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2023 Apple Inc. All rights reserved.
+# Copyright (C) 2022 Apple Inc. All rights reserved.
 #
 
 from typing import Union
@@ -39,7 +39,8 @@ class LabelSmoothing(nn.Module):
 class FeatureExtractor(nn.Module):
     """A wrapper class to return only features (no logits)."""
 
-    def __init__(self, model: Union[nn.Module, torch.jit.ScriptModule]) -> None:
+    def __init__(self,
+                 model: Union[nn.Module, torch.jit.ScriptModule]) -> None:
         """Construct FeatureExtractor module.
 
         :param model: A model that outputs both logits and features.
@@ -60,12 +61,11 @@ class FeatureExtractor(nn.Module):
 class TransformedOldModel(nn.Module):
     """A wrapper class to return transformed features."""
 
-    def __init__(
-        self,
-        old_model: Union[nn.Module, torch.jit.ScriptModule],
-        side_model: Union[nn.Module, torch.jit.ScriptModule],
-        transformation: Union[nn.Module, torch.jit.ScriptModule],
-    ) -> None:
+    def __init__(self,
+                 old_model: Union[nn.Module, torch.jit.ScriptModule],
+                 side_model: Union[nn.Module, torch.jit.ScriptModule],
+                 transformation: Union[
+                     nn.Module, torch.jit.ScriptModule]) -> None:
         """Construct TransformedOldModel module.
 
         :param old_model: Old model.
@@ -90,7 +90,7 @@ class TransformedOldModel(nn.Module):
 
 
 def prepare_model_for_export(
-    model: Union[nn.Module, torch.jit.ScriptModule]
+        model: Union[nn.Module, torch.jit.ScriptModule]
 ) -> Union[nn.Module, torch.jit.ScriptModule]:
     """Prepare a model to be exported as torchscript."""
     if isinstance(model, torch.nn.DataParallel):
@@ -100,9 +100,8 @@ def prepare_model_for_export(
     return model
 
 
-def backbone_to_torchscript(
-    model: Union[nn.Module, torch.jit.ScriptModule], output_model_path: str
-) -> None:
+def backbone_to_torchscript(model: Union[nn.Module, torch.jit.ScriptModule],
+                            output_model_path: str) -> None:
     """Convert a backbone model to torchscript.
 
     :param model: A backbone model to be converted to torch script.
@@ -115,12 +114,11 @@ def backbone_to_torchscript(
 
 
 def transformation_to_torchscripts(
-    old_model: Union[nn.Module, torch.jit.ScriptModule],
-    side_model: Union[nn.Module, torch.jit.ScriptModule],
-    transformation: Union[nn.Module, torch.jit.ScriptModule],
-    output_transformation_path: str,
-    output_transformed_old_model_path: str,
-) -> None:
+        old_model: Union[nn.Module, torch.jit.ScriptModule],
+        side_model: Union[nn.Module, torch.jit.ScriptModule],
+        transformation: Union[nn.Module, torch.jit.ScriptModule],
+        output_transformation_path: str,
+        output_transformed_old_model_path: str) -> None:
     """Convert a transformation model to torchscript.
 
     :param old_model: Old model.

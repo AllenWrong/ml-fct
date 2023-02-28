@@ -1,12 +1,13 @@
 #
-# Copyright (C) 2023 Apple Inc. All rights reserved.
+# Copyright (C) 2022 Apple Inc. All rights reserved.
 #
 
-
-class AverageMeter:
+class AverageMeter():
     """Computes and stores the average and current value."""
 
-    def __init__(self, name: str, fmt: str = ":f") -> None:
+    def __init__(self,
+                 name: str,
+                 fmt: str = ":f") -> None:
         """Construct an AverageMeter module.
 
         :param name: Name of the metric to be tracked.

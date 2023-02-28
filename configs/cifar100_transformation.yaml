@@ -1,9 +1,9 @@
 old_model_path: checkpoints/cifar100_old.pt
 new_model_path: checkpoints/cifar100_new.pt
-#side_info_model_path: checkpoints/imagenet_1000_simclr.pt # Comment this line for no side-info experiment.
+side_info_model_path: checkpoints/imagenet_1000_simclr.pt # Comment this line for no side-info experiment.
 
 arch_params:
-  arch: MLP_BN_SIDE_PROJECTION_SIGMA
+  arch: MLP_BN_SIDE_PROJECTION
   old_embedding_dim: 128
   new_embedding_dim: 128
   side_info_dim: 128
@@ -27,17 +27,7 @@ lr_policy_params:
   epochs: 80
   lr: 0.0005
 
-objective_params:
-  similarity_loss:
-    name: mse
-  discriminative_loss:
-    name: LabelSmoothing
-    label_smoothing: 0.1
-    mu_disc: 1
-  uncertainty_loss:
-    mu_uncertainty: 0.5
-
 epochs: 80
 switch_mode_to_eval: True
-output_transformation_path: checkpoints/cifar100_fastfill_transformation.pt
-output_transformed_old_model_path: checkpoints/cifar100_old_fastfill_transformed.pt
+output_transformation_path: checkpoints/cifar100_transformation.pt
+output_transformed_old_model_path: checkpoints/cifar100_old_transformed.pt
